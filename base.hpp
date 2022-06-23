@@ -8,9 +8,9 @@ class pca9685{
 private:
     hwlib::i2c_bus& bus;
 
-    void write(uint8_t sub_register, uint8_t content_register);
+    void write(int sub_register, int content_register);
 
-    void read(uint8_t sub_register);
+    void read(int sub_register);
 
     int pwm_calc_freq(int osc_clock_mhz, int update_rate);
 
