@@ -4,14 +4,15 @@ pca9685::pca9685(hwlib::i2c_bus& bus) :
 bus(bus)
 {set_freq(25, 50);}
 
-void pca9685::write(uint8_t sub_register, uint8_t content_register){
+void pca9685::write(int sub_register, int content_register){
         auto write_trans = bus.write(address_slave);
         write_trans.write(sub_register);
         write_trans.write(content_register);
+        hwlib::cout << "Slave address, sub register, register content: " << address_slave << ", " << sub_register << ", " << content_register << hwlib::endl;
 }
 
 
-void pca9685::read(uint8_t sub_register) {
+void pca9685::read(int sub_register) {
     uint8_t results[1];
     {
         hwlib::i2c_read_transaction read_trans = bus.read(address_slave);
@@ -19,7 +20,7 @@ void pca9685::read(uint8_t sub_register) {
     }
 
     uint8_t value = results[0];
-    hwlib::cout << value << hwlib::endl;
+    hwlib::cout << "Final register content: " << value << hwlib::endl;
 }
 
 
@@ -31,20 +32,22 @@ int pca9685::pwm_calc_freq(int osc_clock_mhz, int update_rate_hz) {
 void pca9685::set_freq(int osc_clock_mhz, int update_rate){
     // First I calculate my PWM frequency
     int pwm_freq = pwm_calc_freq(osc_clock_mhz, update_rate);
+    // see page 15 of datasheet
 
     // Then I set my MODE1 to sleep in order to control the PRE_SCALE
     write(MODE1_reg, MODE1_reg_sleep);
     read(MODE1_reg);
+    hwlib::wait_ns(500);
 
     // Then I set my PRE_SCALE
     write(PRE_SCALE_reg, pwm_freq);
     read(PRE_SCALE_reg);
 
     // Then I set my MODE1 back to normal mode
-    write(MODE1_reg, MODE1_reg_normal);
+    write(MODE1_reg, (MODE1_reg_normal));
     read(MODE1_reg);
+    hwlib::wait_ns(500);
 }
-
 
 
 uint16_t pca9685::pwm_control(int zero_to_120_degree){
@@ -55,9 +58,8 @@ uint16_t pca9685::pwm_control(int zero_to_120_degree){
 }
 
 void pca9685::set_pwm_led(int zero_to_120_degree, uint8_t subreg_on_l, uint8_t subreg_on_h, uint8_t subreg_off_l, uint8_t subreg_off_h){
-    hwlib::cout << "\n" << hwlib::endl;
     uint16_t temp = pwm_control(zero_to_120_degree);
-    hwlib::cout << temp << hwlib::endl;
+    hwlib::cout << "\n" << temp << hwlib::endl;
     uint8_t led_off_l = temp;
     uint8_t led_off_h = (temp >> 8);
 
