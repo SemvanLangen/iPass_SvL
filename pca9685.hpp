@@ -19,7 +19,7 @@
 /// \brief
 /// Struct for register adresses.
 /// \details
-/// Struct for all the register adresses.
+/// Struct for all the register addresses to write to an LED and the standard max rotation value of 180.
 struct servo{
     uint8_t LED_ON_L;
     uint8_t LED_ON_H;
@@ -59,13 +59,13 @@ private:
     /// Basic write function.
     /// \details
     /// Write to static slave address 0x40, then declare which sub register you want to write to, then write the content.
-    void write(uint8_t register_address, uint8_t data);
+    void write(uint8_t sub_register, uint8_t content_register);
 
     /// \brief
     /// Basic read function.
     /// \details
-    /// Read the last write transaction that happened on the chip.
-    void read(uint8_t register_address);
+    /// Read the value of a specific register.
+    void read(uint8_t sub_register);
 
     /// \brief
     /// Calculate servo frequency.
@@ -91,7 +91,7 @@ public:
     /// \brief
     /// Set a servo to a specific degree.
     /// \details
-    /// Set a servo to a specific degree bij using one of the pca9685::LED and a degree you want to set it to.
+    /// Set a servo to a specific degree bij using one of the LED_STRUCT::LED's and a degree you want to set it to.
     void set_position_servo(uint16_t position, const servo & led);
 };
 

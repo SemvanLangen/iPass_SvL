@@ -28,33 +28,14 @@ void pca9685::write(uint8_t sub_register, uint8_t content_register){
     hwlib::wait_ms(50);
 }
 
-//void pca9685::write(uint8_t sub_register, uint8_t content_register) {
-//    auto writer = bus.write(address_slave);
-//    hwlib::wait_ns(500);
-//    writer.write(sub_register);
-//    hwlib::wait_ns(500);
-//    writer.write(content_register);
-//    hwlib::wait_ns(500);
-//}
 
-//void pca9685::read() {
-//    uint8_t results[1];
-//    {
-//        hwlib::i2c_read_transaction read_trans = bus.read(address_slave);
-//        read_trans.read(results, 1);
-//    }
-//
-//    uint8_t value = results[0];
-//    hwlib::cout << "Final register content: " << value << hwlib::endl;
-//}
-
-void pca9685::read(uint8_t register_address) {
+void pca9685::read(uint8_t sub_register) {
     {
         auto writer = bus.write(address_slave);
         hwlib::wait_ns(500);
         writer.prepare_repeated_start();
         hwlib::wait_ns(500);
-        writer.write(register_address);
+        writer.write(sub_register);
         hwlib::wait_ns(500);
     }
     auto read_data = bus.read(address_slave).read_byte();

@@ -12,17 +12,6 @@
 
 #include "pca9685.hpp"
 
-void neutral(pca9685& object){
-    object.set_position_servo(140, LED_STRUCT::LED0);
-    hwlib::wait_ms(100);
-    object.set_position_servo(40, LED_STRUCT::LED0);
-    hwlib::wait_ms(100);
-    object.set_position_servo(140, LED_STRUCT::LED0);
-    hwlib::wait_ms(100);
-    object.set_position_servo(40, LED_STRUCT::LED0);
-    hwlib::wait_ms(100);
-}
-
 void wave(pca9685& object) {
     object.set_position_servo(130, LED_STRUCT::LED5);
     hwlib::wait_ms(200);
@@ -39,13 +28,12 @@ void wave(pca9685& object) {
 }
 
 void bow_down(pca9685& object){
-    object.set_position_servo(90, LED_STRUCT::LED4);
+    object.set_position_servo(90, LED_STRUCT::LED1);
     object.set_position_servo(90, LED_STRUCT::LED5);
-    hwlib::wait_ms(200);
+    hwlib::wait_ms(3000);
 
-    object.set_position_servo(180, LED_STRUCT::LED4);
+    object.set_position_servo(180, LED_STRUCT::LED1);
     object.set_position_servo(180, LED_STRUCT::LED5);
-    hwlib::wait_ms(200);
 }
 
 void test_all(pca9685& object){
@@ -76,4 +64,12 @@ void test_all(pca9685& object){
     // leg bottom right
     object.set_position_servo(180, LED_STRUCT::LED13);
     hwlib::wait_ms(200);
+}
+
+void demo(pca9685& object){
+    wave(object);
+    hwlib::wait_ms(1000);
+    test_all(object);
+    hwlib::wait_ms(1000);
+    bow_down(object);
 }

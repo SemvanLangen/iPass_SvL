@@ -19,4 +19,6 @@ void wave(pca9685& object);
 void bow_down(pca9685& object);
 void test_all(pca9685& object);
 
+void demo(pca9685& object);
+
 #endif
