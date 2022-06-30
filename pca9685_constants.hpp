@@ -1,3 +1,15 @@
+// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+//
+//       Author  :   Sem van Langen
+//       Filename:   pca9685_constants.cpp
+//       Part of :   iPass
+//
+//
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 #ifndef YOUR_PROJECT_NAME_PCA9685_CONSTANTS_HPP
 #define YOUR_PROJECT_NAME_PCA9685_CONSTANTS_HPP
 

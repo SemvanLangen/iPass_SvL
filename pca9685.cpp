@@ -1,37 +1,65 @@
+// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+//
+//       Author  :   Sem van Langen
+//       Filename:   pca9685.cpp
+//       Part of :   iPass
+//
+//
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 #include "pca9685.hpp"
 
 pca9685::pca9685(hwlib::i2c_bus& bus) :
 bus(bus)
 {set_freq(25, 50);}
 
-
-pca9685::servo LED0 = {0x06, 0x07, 0x08, 0x09};
-pca9685::servo LED1 = {0x0A, 0x0B, 0x0C, 0x0D};
-pca9685::servo LED2 = {0x0E, 0x0F, 0x10, 0x11};
-pca9685::servo LED3 = {0x12, 0x13, 0x14, 0x15};
-pca9685::servo LED4 = {0x16, 0x17, 0x18, 0x19};
-pca9685::servo LED5 = {0x1A, 0x1B, 0x1C, 0x1D};
-pca9685::servo LED6 = {0x1E, 0x1F, 0x20, 0x21};
-pca9685::servo LED7 = {0x22, 0x23, 0x24, 0x25};
-
-
-void pca9685::write(int sub_register, int content_register){
-        auto write_trans = bus.write(address_slave);
-        write_trans.write(sub_register);
-        write_trans.write(content_register);
-        hwlib::cout << "Slave address, sub register, register content: " << address_slave << ", " << sub_register << ", " << content_register << hwlib::endl;
+void pca9685::write(uint8_t sub_register, uint8_t content_register){
+    {
+        hwlib::i2c_write_transaction wtrans = ((hwlib::i2c_bus * )(&bus))->write(address_slave);
+        hwlib::wait_ns(500);
+        wtrans.write(sub_register);
+        hwlib::wait_ns(500);
+        wtrans.write(content_register);
+    }
+    hwlib::cout << address_slave << ", " << sub_register << ", " << content_register << hwlib::endl;
+    hwlib::wait_ms(50);
 }
 
+//void pca9685::write(uint8_t sub_register, uint8_t content_register) {
+//    auto writer = bus.write(address_slave);
+//    hwlib::wait_ns(500);
+//    writer.write(sub_register);
+//    hwlib::wait_ns(500);
+//    writer.write(content_register);
+//    hwlib::wait_ns(500);
+//}
 
-void pca9685::read() {
-    uint8_t results[1];
+//void pca9685::read() {
+//    uint8_t results[1];
+//    {
+//        hwlib::i2c_read_transaction read_trans = bus.read(address_slave);
+//        read_trans.read(results, 1);
+//    }
+//
+//    uint8_t value = results[0];
+//    hwlib::cout << "Final register content: " << value << hwlib::endl;
+//}
+
+void pca9685::read(uint8_t register_address) {
     {
-        hwlib::i2c_read_transaction read_trans = bus.read(address_slave);
-        read_trans.read(results, 1);
+        auto writer = bus.write(address_slave);
+        hwlib::wait_ns(500);
+        writer.prepare_repeated_start();
+        hwlib::wait_ns(500);
+        writer.write(register_address);
+        hwlib::wait_ns(500);
     }
-
-    uint8_t value = results[0];
-    hwlib::cout << "Final register content: " << value << hwlib::endl;
+    auto read_data = bus.read(address_slave).read_byte();
+    hwlib::wait_ns(500);
+    hwlib::cout << read_data << hwlib::endl;
 }
 
 
@@ -46,56 +74,110 @@ void pca9685::set_freq(int osc_clock_mhz, int update_rate){
     // see page 15 of datasheet
 
     // Then I set my MODE1 to sleep in order to control the PRE_SCALE
+    hwlib::wait_ms(500);
     write(MODE1_reg, MODE1_reg_sleep);
-    read();
+    read(MODE1_reg);
     hwlib::wait_ms(500);
 
     // Then I set my PRE_SCALE
     write(PRE_SCALE_reg, pwm_freq);
-    read();
+    read(PRE_SCALE_reg);
+    hwlib::wait_ms(500);
 
     // Then I set my MODE1 back to normal mode
     write(MODE1_reg, (MODE1_reg_normal));
-    read();
+    read(MODE1_reg);
+    hwlib::wait_ms(500);
 }
 
 
-uint16_t pca9685::calculate_counts(int zero_to_120_degree){
-    // Ive decided i wanted a 5% delay.
-    // 4095 * 0.1 = 409.5, 4095 - 409.5 = 3685.5, 3685.5 / 120 = 30.7125
-    float one_degree = 30.7125;
-    return (zero_to_120_degree * one_degree);
+uint16_t pca9685::calculate_counts(uint16_t zero_to_120_degree){
+    // I have decided I wanted a 10% delay, so the formula is:
+    // min 5% and max 10% of 4095
+    // min = 4095 * 0.05 = 204.75
+    // max = 4095 * 0.1 = 409.5
+    // usable_cycle = 204.75;
+    uint16_t usable_cycle = 204;
+    // one_degree = usable_cycle / 120;
+    float one_degree = 1.7;
+    return ((zero_to_120_degree * one_degree) + usable_cycle);
 }
 
-void pca9685::set_pwm_led(int zero_to_120_degree, servo led){
-    if (zero_to_120_degree <= 4095 && zero_to_120_degree >= 0){
-        cycle_tics = calculate_counts(zero_to_120_degree);
-    }
-    else if (zero_to_120_degree < 0){
-        cycle_tics = 0;
-    }
-    else{
-        cycle_tics = 4095;
+void pca9685::set_pwm_led(uint16_t zero_to_120_degree, const servo & led) {
+    uint16_t tics_high = 0;
+    if (zero_to_120_degree <= 120 && zero_to_120_degree >= 0) {
+        tics_high = calculate_counts(zero_to_120_degree);
+        hwlib::cout << "TICS_HIGH1: " << tics_high << hwlib::endl;
+    } else if (zero_to_120_degree < 0) {
+        tics_high = 204.75;
+        hwlib::cout << "TICS_HIGH2: " << tics_high << hwlib::endl;
+    } else {
+        tics_high = 409;
+        hwlib::cout << "TICS_HIGH3: " << tics_high << hwlib::endl;
     }
 
-    hwlib::cout << "\n" << cycle_tics << hwlib::endl;
-    uint8_t led_on_l_content = cycle_tics;
-    uint8_t led_on_h_content = (cycle_tics >> 8);
+    hwlib::cout << "TICS_HIGH: " << tics_high << hwlib::endl;
 
-    uint8_t led_off_l_content = 4095 - led_on_l_content;
-    uint8_t led_off_h_content = 4095 - led_on_h_content;
+    uint8_t led_on_l_content = 0;
+    uint8_t led_on_h_content = 0;
+
+    uint8_t led_off_l_content = led_on_l_content + tics_high;
+    uint8_t led_off_h_content = led_on_h_content + (tics_high >> 8);
 
     hwlib::cout << "Data in subregister ON:" << hwlib::endl;
-    write(led.LED_ON_H, led_on_h_content);
-    read();
-
     write(led.LED_ON_L, led_on_l_content);
-    read();
+    read(led.LED_ON_L);
+
+    write(led.LED_ON_H, led_on_h_content);
+    read(led.LED_ON_H);
 
     hwlib::cout << "Data in subregister OFF:" << hwlib::endl;
-    write(led.LED_OFF_H, led_off_h_content);
-    read();
-
     write(led.LED_OFF_L, led_off_l_content);
-    read();
+    read(led.LED_OFF_L);
+
+    write(led.LED_OFF_H, led_off_h_content);
+    read(led.LED_OFF_H);
 }
+
+//void pca9685::set_pwm_servo(int zero_to_120_degree, const servo & led){
+//    int tics_high = 0;
+//    if (zero_to_120_degree <= 409.5 && zero_to_120_degree >= 204.75){
+//        tics_high = calculate_counts(zero_to_120_degree);
+//    }
+//    else if (zero_to_120_degree < 0){
+//        tics_high = 0;
+//    }
+//    else{
+//        tics_high = 409;
+//    }
+//
+//    uint8_t led_on_l_content = (tics_high &0b11111111);
+//    uint8_t led_on_h_content = ((tics_high >> 8) &0b11111111);
+//
+//    uint8_t led_off_l_content = 255 - led_on_l_content;
+//    uint8_t led_off_h_content = 15 - led_on_h_content;
+//
+////    hwlib::wait_ms(500);
+////    write(MODE1_reg, MODE1_reg_sleep);
+////    read(MODE1_reg);
+////    hwlib::wait_ms(500);
+//
+//    hwlib::cout << "Data in subregister ON:" << hwlib::endl;
+//    write(led.LED_ON_L, led_on_l_content);
+//    read(led.LED_ON_L);
+//
+//    write(led.LED_ON_H, led_on_h_content);
+//    read(led.LED_ON_H);
+//
+//    hwlib::cout << "Data in subregister OFF:" << hwlib::endl;
+//    write(led.LED_OFF_L, led_off_l_content);
+//    read(led.LED_OFF_L);
+//
+//    write(led.LED_OFF_H, led_off_h_content);
+//    read(led.LED_OFF_H);
+//
+////    hwlib::wait_ms(500);
+////    write(MODE1_reg, (MODE1_reg_normal));
+////    read(MODE1_reg);
+////    hwlib::wait_ms(500);
+//}

@@ -9,7 +9,7 @@
 #############################################################################
 
 # source files in this project (main.cpp is automatically assumed)
-SOURCES := pca9685.cpp
+SOURCES := pca9685.cpp robo_spooder.cpp
 
 # header files in this project
 HEADERS := pca9685.hpp pca9685_constants.hpp robo_spooder.hpp

@@ -1,3 +1,15 @@
+// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+//
+//       Author  :   Sem van Langen
+//       Filename:   main.cpp
+//       Part of :   iPass
+//
+//
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+// # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 #include <hwlib.hpp>
 #include "pca9685.hpp"
 #include "pca9685_constants.hpp"
@@ -19,18 +31,16 @@ int main(){
     hwlib::target::pin_oc sda = hwlib::target::pin_oc(hwlib::target::pins::d9);
     hwlib::i2c_bus_bit_banged_scl_sda bus = hwlib::i2c_bus_bit_banged_scl_sda(scl, sda);
 
-    // Make a object and do what I want with it
-    pca9685 a(bus);
+    // Make an object and do what I want with it
+    pca9685 object(bus);
     for(;;) {
-        a.set_pwm_led(120, a.LED0);
-//        a.set_pwm_led(120, a.LED1);
-//        a.set_pwm_led(120, a.LED2);
-        hwlib::wait_ms(500);
-
-
-        a.set_pwm_led(0, a.LED0);
-//        a.set_pwm_led(0, a.LED1);
-//        a.set_pwm_led(0, a.LED2);
-        hwlib::wait_ms(500);
+        object.set_pwm_led(120, LED_STRUCT::LED1);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(0, LED_STRUCT::LED1);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(120, LED_STRUCT::LED5);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(60, LED_STRUCT::LED5);
+        hwlib::wait_ms(2000);
     }
 }
