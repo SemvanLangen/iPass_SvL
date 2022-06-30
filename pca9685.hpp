@@ -25,6 +25,7 @@ struct servo{
     uint8_t LED_ON_H;
     uint8_t LED_OFF_L;
     uint8_t LED_OFF_H;
+    uint8_t max_range = 180;
 };
 
 struct LED_STRUCT {
@@ -76,7 +77,7 @@ private:
     /// Calculate the count of the given degree.
     /// \details
     /// Calculate how much counts the chip needs to set a servo to a given degree.
-    uint16_t calculate_counts(uint16_t zero_to_180_degree);
+    uint16_t calculate_counts(uint16_t position, uint8_t max_degrees);
 
 public:
     explicit pca9685(hwlib::i2c_bus& bus);
@@ -87,13 +88,11 @@ public:
     /// Prepare the MODE1 to set the freq of the servo's in PRE_SCALE, after write to PRE_SCALE set MODE1 to output for the LEDS.
     void set_freq(int osc_clock_mhz, int update_rate);
 
-    void set_pwm_led(uint16_t zero_to_180_degree, const servo & led);
-
     /// \brief
     /// Set a servo to a specific degree.
     /// \details
     /// Set a servo to a specific degree bij using one of the pca9685::LED and a degree you want to set it to.
-//    void set_pwm_servo(int zero_to_120_degree, const servo & led);
+    void set_position_servo(uint16_t position, const servo & led);
 };
 
 #endif

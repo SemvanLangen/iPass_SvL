@@ -91,21 +91,20 @@ void pca9685::set_freq(int osc_clock_mhz, int update_rate){
 }
 
 
-uint16_t pca9685::calculate_counts(uint16_t zero_to_180_degree){
+uint16_t pca9685::calculate_counts(uint16_t position, uint8_t max_degrees){
     // I have decided I wanted a 10% delay, so the formula is:
     // min 5% and max 10% of 4095
     // min = 4095 * 0.025 = 103
     // max = 4095 * 0.125 = 511
     // usable_cycle = 408;
-    // one_degree = usable_cycle / 180 = 2.27;
-    return ((zero_to_180_degree * 2.27) + 103);
+    return ((position * (408 / max_degrees)) + 103);
 }
 
-void pca9685::set_pwm_led(uint16_t zero_to_180_degree, const servo & led) {
+void pca9685::set_position_servo(uint16_t position, const servo & led) {
     uint16_t tics_high = 0;
-    if (zero_to_180_degree <= 180 && zero_to_180_degree >= 0) {
-        tics_high = calculate_counts(zero_to_180_degree);
-    } else if (zero_to_180_degree < 0) {
+    if (position <= led.max_range && position >= 0) {
+        tics_high = calculate_counts(position, led.max_range);
+    } else if (position < 0) {
         tics_high = 103;
     } else {
         tics_high = 511;
@@ -133,46 +132,3 @@ void pca9685::set_pwm_led(uint16_t zero_to_180_degree, const servo & led) {
     write(led.LED_OFF_H, led_off_h_content);
     read(led.LED_OFF_H);
 }
-
-//void pca9685::set_pwm_servo(int zero_to_120_degree, const servo & led){
-//    int tics_high = 0;
-//    if (zero_to_120_degree <= 409.5 && zero_to_120_degree >= 204.75){
-//        tics_high = calculate_counts(zero_to_120_degree);
-//    }
-//    else if (zero_to_120_degree < 0){
-//        tics_high = 0;
-//    }
-//    else{
-//        tics_high = 409;
-//    }
-//
-//    uint8_t led_on_l_content = (tics_high &0b11111111);
-//    uint8_t led_on_h_content = ((tics_high >> 8) &0b11111111);
-//
-//    uint8_t led_off_l_content = 255 - led_on_l_content;
-//    uint8_t led_off_h_content = 15 - led_on_h_content;
-//
-////    hwlib::wait_ms(500);
-////    write(MODE1_reg, MODE1_reg_sleep);
-////    read(MODE1_reg);
-////    hwlib::wait_ms(500);
-//
-//    hwlib::cout << "Data in subregister ON:" << hwlib::endl;
-//    write(led.LED_ON_L, led_on_l_content);
-//    read(led.LED_ON_L);
-//
-//    write(led.LED_ON_H, led_on_h_content);
-//    read(led.LED_ON_H);
-//
-//    hwlib::cout << "Data in subregister OFF:" << hwlib::endl;
-//    write(led.LED_OFF_L, led_off_l_content);
-//    read(led.LED_OFF_L);
-//
-//    write(led.LED_OFF_H, led_off_h_content);
-//    read(led.LED_OFF_H);
-//
-////    hwlib::wait_ms(500);
-////    write(MODE1_reg, (MODE1_reg_normal));
-////    read(MODE1_reg);
-////    hwlib::wait_ms(500);
-//}
