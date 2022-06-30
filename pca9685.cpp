@@ -97,16 +97,15 @@ uint16_t pca9685::calculate_counts(uint16_t zero_to_180_degree){
     // min = 4095 * 0.025 = 103
     // max = 4095 * 0.125 = 511
     // usable_cycle = 408;
-    // one_degree = usable_cycle / 120 = 3.4;
-     int scaled = ((zero_to_180_degree / 3) * 2)
-    return ((scaled * 3.4) + 103);
+    // one_degree = usable_cycle / 180 = 2.27;
+    return ((zero_to_180_degree * 2.27) + 103);
 }
 
-void pca9685::set_pwm_led(uint16_t zero_to_120_degree, const servo & led) {
+void pca9685::set_pwm_led(uint16_t zero_to_180_degree, const servo & led) {
     uint16_t tics_high = 0;
-    if (zero_to_120_degree <= 120 && zero_to_120_degree >= 0) {
-        tics_high = calculate_counts(zero_to_120_degree);
-    } else if (zero_to_120_degree < 0) {
+    if (zero_to_180_degree <= 180 && zero_to_180_degree >= 0) {
+        tics_high = calculate_counts(zero_to_180_degree);
+    } else if (zero_to_180_degree < 0) {
         tics_high = 103;
     } else {
         tics_high = 511;
