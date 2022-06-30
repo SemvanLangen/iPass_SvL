@@ -91,29 +91,25 @@ void pca9685::set_freq(int osc_clock_mhz, int update_rate){
 }
 
 
-uint16_t pca9685::calculate_counts(uint16_t zero_to_120_degree){
+uint16_t pca9685::calculate_counts(uint16_t zero_to_180_degree){
     // I have decided I wanted a 10% delay, so the formula is:
     // min 5% and max 10% of 4095
-    // min = 4095 * 0.05 = 204.75
-    // max = 4095 * 0.1 = 409.5
-    // usable_cycle = 204.75;
-    uint16_t usable_cycle = 204;
-    // one_degree = usable_cycle / 120;
-    float one_degree = 1.7;
-    return ((zero_to_120_degree * one_degree) + usable_cycle);
+    // min = 4095 * 0.025 = 103
+    // max = 4095 * 0.125 = 511
+    // usable_cycle = 408;
+    // one_degree = usable_cycle / 120 = 3.4;
+     int scaled = ((zero_to_180_degree / 3) * 2)
+    return ((scaled * 3.4) + 103);
 }
 
 void pca9685::set_pwm_led(uint16_t zero_to_120_degree, const servo & led) {
     uint16_t tics_high = 0;
     if (zero_to_120_degree <= 120 && zero_to_120_degree >= 0) {
         tics_high = calculate_counts(zero_to_120_degree);
-        hwlib::cout << "TICS_HIGH1: " << tics_high << hwlib::endl;
     } else if (zero_to_120_degree < 0) {
-        tics_high = 204.75;
-        hwlib::cout << "TICS_HIGH2: " << tics_high << hwlib::endl;
+        tics_high = 103;
     } else {
-        tics_high = 409;
-        hwlib::cout << "TICS_HIGH3: " << tics_high << hwlib::endl;
+        tics_high = 511;
     }
 
     hwlib::cout << "TICS_HIGH: " << tics_high << hwlib::endl;

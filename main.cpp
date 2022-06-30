@@ -34,13 +34,31 @@ int main(){
     // Make an object and do what I want with it
     pca9685 object(bus);
     for(;;) {
-        object.set_pwm_led(120, LED_STRUCT::LED1);
+        object.set_pwm_led(0, LED_STRUCT::LED0);
         hwlib::wait_ms(2000);
-        object.set_pwm_led(0, LED_STRUCT::LED1);
+        object.set_pwm_led(10, LED_STRUCT::LED0);
         hwlib::wait_ms(2000);
-        object.set_pwm_led(120, LED_STRUCT::LED5);
+        object.set_pwm_led(20, LED_STRUCT::LED0);
         hwlib::wait_ms(2000);
-        object.set_pwm_led(60, LED_STRUCT::LED5);
+        object.set_pwm_led(30, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(40, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(50, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(60, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(70, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(80, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(90, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(100, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(110, LED_STRUCT::LED0);
+        hwlib::wait_ms(2000);
+        object.set_pwm_led(120, LED_STRUCT::LED0);
         hwlib::wait_ms(2000);
     }
 }
