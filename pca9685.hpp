@@ -50,6 +50,10 @@ struct LED_STRUCT {
     static constexpr const servo LED15 = {0x42, 0x43, 0x44, 0x45};
 };
 
+/// \brief
+/// PCA9685 class
+/// \details
+/// Test test lorem ipsum dolor 
 class pca9685{
 private:
     hwlib::i2c_bus& bus;

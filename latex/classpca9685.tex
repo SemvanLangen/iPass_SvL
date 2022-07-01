@@ -1,0 +1,41 @@
+\hypertarget{classpca9685}{}\doxysection{pca9685 Class Reference}
+\label{classpca9685}\index{pca9685@{pca9685}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classpca9685_ab19235623c94bf8635182a8629308337}\label{classpca9685_ab19235623c94bf8635182a8629308337}} 
+{\bfseries pca9685} (hwlib\+::i2c\+\_\+bus \&bus)
+\item 
+void \mbox{\hyperlink{classpca9685_aa9e06d55348fe50834d510611c9a7c77}{set\+\_\+freq}} (int osc\+\_\+clock\+\_\+mhz, int update\+\_\+rate)
+\begin{DoxyCompactList}\small\item\em Set de MODE1 and PRE\+\_\+\+SCALE registers. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classpca9685_a41cb1264d52f2257174b70a23a24170e}{set\+\_\+position\+\_\+servo}} (uint16\+\_\+t position, const \mbox{\hyperlink{structservo}{servo}} \&led)
+\begin{DoxyCompactList}\small\item\em Set a servo to a specific degree. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classpca9685_aa9e06d55348fe50834d510611c9a7c77}\label{classpca9685_aa9e06d55348fe50834d510611c9a7c77}} 
+\index{pca9685@{pca9685}!set\_freq@{set\_freq}}
+\index{set\_freq@{set\_freq}!pca9685@{pca9685}}
+\doxysubsubsection{\texorpdfstring{set\_freq()}{set\_freq()}}
+{\footnotesize\ttfamily void pca9685\+::set\+\_\+freq (\begin{DoxyParamCaption}\item[{int}]{osc\+\_\+clock\+\_\+mhz,  }\item[{int}]{update\+\_\+rate }\end{DoxyParamCaption})}
+
+
+
+Set de MODE1 and PRE\+\_\+\+SCALE registers. 
+
+Prepare the MODE1 to set the freq of the servo\textquotesingle{}s in PRE\+\_\+\+SCALE, after write to PRE\+\_\+\+SCALE set MODE1 to output for the LEDS. \mbox{\Hypertarget{classpca9685_a41cb1264d52f2257174b70a23a24170e}\label{classpca9685_a41cb1264d52f2257174b70a23a24170e}} 
+\index{pca9685@{pca9685}!set\_position\_servo@{set\_position\_servo}}
+\index{set\_position\_servo@{set\_position\_servo}!pca9685@{pca9685}}
+\doxysubsubsection{\texorpdfstring{set\_position\_servo()}{set\_position\_servo()}}
+{\footnotesize\ttfamily void pca9685\+::set\+\_\+position\+\_\+servo (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{position,  }\item[{const \mbox{\hyperlink{structservo}{servo}} \&}]{led }\end{DoxyParamCaption})}
+
+
+
+Set a servo to a specific degree. 
+
+Set a servo to a specific degree bij using one of the LED\+\_\+\+STRUCT\+::\+LED\textquotesingle{}s and a degree you want to set it to. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+pca9685.\+hpp\item 
+pca9685.\+cpp\end{DoxyCompactItemize}

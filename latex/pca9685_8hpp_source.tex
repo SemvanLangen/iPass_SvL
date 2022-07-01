@@ -1,0 +1,75 @@
+\hypertarget{pca9685_8hpp_source}{}\doxysection{pca9685.\+hpp}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 \textcolor{comment}{// \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \#}}
+\DoxyCodeLine{2 \textcolor{comment}{//}}
+\DoxyCodeLine{3 \textcolor{comment}{//       Author  :   Sem van Langen}}
+\DoxyCodeLine{4 \textcolor{comment}{//       Filename:   pca9685.hpp}}
+\DoxyCodeLine{5 \textcolor{comment}{//       Part of :   iPass}}
+\DoxyCodeLine{6 \textcolor{comment}{//}}
+\DoxyCodeLine{7 \textcolor{comment}{//}}
+\DoxyCodeLine{8 \textcolor{comment}{// Distributed under the Boost Software License, Version 1.0.}}
+\DoxyCodeLine{9 \textcolor{comment}{// (See accompanying file LICENSE\_1\_0.txt or copy at}}
+\DoxyCodeLine{10 \textcolor{comment}{// http://www.boost.org/LICENSE\_1\_0.txt)}}
+\DoxyCodeLine{11 \textcolor{comment}{// \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \# \#}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#ifndef YOUR\_PROJECT\_NAME\_PCA9685\_HPP}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#define YOUR\_PROJECT\_NAME\_PCA9685\_HPP}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include "{}hwlib.hpp"{}}}
+\DoxyCodeLine{17 \textcolor{preprocessor}{\#include "{}pca9685\_constants.hpp"{}}}
+\DoxyCodeLine{18 }
+\DoxyCodeLine{23 \textcolor{keyword}{struct }\mbox{\hyperlink{structservo}{servo}}\{}
+\DoxyCodeLine{24     uint8\_t LED\_ON\_L;}
+\DoxyCodeLine{25     uint8\_t LED\_ON\_H;}
+\DoxyCodeLine{26     uint8\_t LED\_OFF\_L;}
+\DoxyCodeLine{27     uint8\_t LED\_OFF\_H;}
+\DoxyCodeLine{28     uint8\_t max\_range = 180;}
+\DoxyCodeLine{29 \};}
+\DoxyCodeLine{30 }
+\DoxyCodeLine{31 \textcolor{keyword}{struct }\mbox{\hyperlink{struct_l_e_d___s_t_r_u_c_t}{LED\_STRUCT}} \{}
+\DoxyCodeLine{32     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED0 = \{0x06, 0x07, 0x08, 0x09\};}
+\DoxyCodeLine{33     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED1 = \{0x0A, 0x0B, 0x0C, 0x0D\};}
+\DoxyCodeLine{34     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED2 = \{0x0E, 0x0F, 0x10, 0x11\};}
+\DoxyCodeLine{35     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED3 = \{0x12, 0x13, 0x14, 0x15\};}
+\DoxyCodeLine{36 }
+\DoxyCodeLine{37     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED4 = \{0x16, 0x17, 0x18, 0x19\};}
+\DoxyCodeLine{38     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED5 = \{0x1A, 0x1B, 0x1C, 0x1D\};}
+\DoxyCodeLine{39     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED6 = \{0x1E, 0x1F, 0x20, 0x21\};}
+\DoxyCodeLine{40     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED7 = \{0x22, 0x23, 0x24, 0x25\};}
+\DoxyCodeLine{41 }
+\DoxyCodeLine{42     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED8 = \{0x26, 0x27, 0x28, 0x29\};}
+\DoxyCodeLine{43     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED9 = \{0x2A, 0x2B, 0x2C, 0x2D\};}
+\DoxyCodeLine{44     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED10 = \{0x2E, 0x2F, 0x30, 0x31\};}
+\DoxyCodeLine{45     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED11 = \{0x32, 0x33, 0x34, 0x35\};}
+\DoxyCodeLine{46 }
+\DoxyCodeLine{47     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED12 = \{0x36, 0x37, 0x38, 0x39\};}
+\DoxyCodeLine{48     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED13 = \{0x3A, 0x3B, 0x3C, 0x3D\};}
+\DoxyCodeLine{49     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED14 = \{0x3E, 0x3F, 0x40, 0x41\};}
+\DoxyCodeLine{50     \textcolor{keyword}{static} \textcolor{keyword}{constexpr} \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} LED15 = \{0x42, 0x43, 0x44, 0x45\};}
+\DoxyCodeLine{51 \};}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53 \textcolor{keyword}{class }\mbox{\hyperlink{classpca9685}{pca9685}}\{}
+\DoxyCodeLine{54 \textcolor{keyword}{private}:}
+\DoxyCodeLine{55     hwlib::i2c\_bus\& bus;}
+\DoxyCodeLine{56     uint16\_t cycle\_tics;}
+\DoxyCodeLine{57 }
+\DoxyCodeLine{62     \textcolor{keywordtype}{void} write(uint8\_t sub\_register, uint8\_t content\_register);}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{68     \textcolor{keywordtype}{void} read(uint8\_t sub\_register);}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{74     \textcolor{keywordtype}{int} calculate\_freq(\textcolor{keywordtype}{int} osc\_clock\_mhz, \textcolor{keywordtype}{int} update\_rate);}
+\DoxyCodeLine{75 }
+\DoxyCodeLine{80     uint16\_t calculate\_counts(uint16\_t position, uint8\_t max\_degrees);}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{82 \textcolor{keyword}{public}:}
+\DoxyCodeLine{83     \textcolor{keyword}{explicit} \mbox{\hyperlink{classpca9685}{pca9685}}(hwlib::i2c\_bus\& bus);}
+\DoxyCodeLine{84 }
+\DoxyCodeLine{89     \textcolor{keywordtype}{void} \mbox{\hyperlink{classpca9685_aa9e06d55348fe50834d510611c9a7c77}{set\_freq}}(\textcolor{keywordtype}{int} osc\_clock\_mhz, \textcolor{keywordtype}{int} update\_rate);}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{95     \textcolor{keywordtype}{void} \mbox{\hyperlink{classpca9685_a41cb1264d52f2257174b70a23a24170e}{set\_position\_servo}}(uint16\_t position, \textcolor{keyword}{const} \mbox{\hyperlink{structservo}{servo}} \& led);}
+\DoxyCodeLine{96 \};}
+\DoxyCodeLine{97 }
+\DoxyCodeLine{98 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}
