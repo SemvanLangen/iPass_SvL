@@ -53,7 +53,7 @@ struct LED_STRUCT {
 /// \brief
 /// PCA9685 class
 /// \details
-/// Test test lorem ipsum dolor 
+/// Test test lorem ipsum dolor
 class pca9685{
 private:
     hwlib::i2c_bus& bus;

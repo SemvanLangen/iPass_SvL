@@ -15,10 +15,22 @@
 
 #include "pca9685.hpp"
 
-void wave(pca9685& object);
-void bow_down(pca9685& object);
-void test_all(pca9685& object);
+class robo_spooder{
+private:
+    pca9685 &object;
 
-void demo(pca9685& object);
+public:
+    robo_spooder(pca9685 &object);
+
+    void neutral();
+
+    void wave();
+
+    void bow_down();
+
+    void test_all();
+
+    void demo();
+};
 
 #endif
