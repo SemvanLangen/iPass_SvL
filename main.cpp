@@ -34,5 +34,5 @@ int main(){
 
     // Make an object and do what I want with it
     pca9685 object(bus);
-    test_all(object);
+    wave(object);
 }

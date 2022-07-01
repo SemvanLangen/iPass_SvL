@@ -41,28 +41,28 @@ void test_all(pca9685& object){
     object.set_position_servo(90, LED_STRUCT::LED0);
     hwlib::wait_ms(200);
     //leg front left
-    object.set_position_servo(180, LED_STRUCT::LED1);
+    object.set_position_servo(70, LED_STRUCT::LED1);
     hwlib::wait_ms(200);
 
     // body front right
     object.set_position_servo(90, LED_STRUCT::LED4);
     hwlib::wait_ms(200);
     // legs front right
-    object.set_position_servo(180, LED_STRUCT::LED5);
+    object.set_position_servo(70, LED_STRUCT::LED5);
     hwlib::wait_ms(200);
 
     // body bottom left
     object.set_position_servo(90, LED_STRUCT::LED8);
     hwlib::wait_ms(200);
     // leg bottom left
-    object.set_position_servo(180, LED_STRUCT::LED9);
+    object.set_position_servo(70, LED_STRUCT::LED9);
     hwlib::wait_ms(200);
 
     // body bottom right
     object.set_position_servo(90, LED_STRUCT::LED12);
     hwlib::wait_ms(200);
     // leg bottom right
-    object.set_position_servo(180, LED_STRUCT::LED13);
+    object.set_position_servo(70, LED_STRUCT::LED13);
     hwlib::wait_ms(200);
 }
 
